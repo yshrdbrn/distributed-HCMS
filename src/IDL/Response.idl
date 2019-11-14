@@ -1,0 +1,16 @@
+#ifndef RESPONSE_IDL
+#define RESPONSE_IDL
+
+#include "Appointment.idl"
+
+module Network {
+    typedef sequence<Appointment> AppointmentList;
+
+    struct Response {
+        boolean success;
+        wstring message;
+        AppointmentList appointments;
+    };
+};
+
+#endif

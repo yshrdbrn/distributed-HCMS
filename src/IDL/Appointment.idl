@@ -1,0 +1,22 @@
+#ifndef APPOINTMENT_IDL
+#define APPOINTMENT_IDL
+
+module Network {
+    enum AppointmentType {
+        PHYSICIAN,
+        SURGEON,
+        DENTAL,
+        NONE
+    };
+
+    typedef sequence<wstring> UserList;
+
+    struct Appointment {
+        AppointmentType type;
+        wstring id;
+        long maxCapacity;
+        UserList users;
+    };
+};
+
+#endif

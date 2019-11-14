@@ -1,0 +1,22 @@
+#ifndef SERVER_IDL
+#define SERVER_IDL
+
+#include "Request.idl"
+#include "Response.idl"
+
+module Network {
+    interface Server {
+        Response AddAppointment(in Request request);
+        Response RemoveAppointment(in Request request);
+        Response ListAppointmentAvailability(in Request request);
+
+        Response BookAppointment(in Request request);
+        Response CancelAppointment(in Request request);
+        Response SwapAppointment(in Request request);
+        Response GetAppointmentSchedule(in Request request);
+
+        wstring GetFullID(in wstring id);
+    };
+};
+
+#endif

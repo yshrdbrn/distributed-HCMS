@@ -1,0 +1,28 @@
+#ifndef REQUEST_IDL
+#define REQUEST_IDL
+
+#include "Appointment.idl"
+
+module Network {
+    enum RequestType {
+        ADD_APPOINTMENT,
+        REMOVE_APPOINTMENT,
+        LIST_APPOINTMENT_AVAILABILITY,
+        BOOK_APPOINTMENT,
+        CANCEL_APPOINTMENT,
+        SWAP_APPOINTMENT,
+        GET_APPOINTMENT_SCHEDULE
+    };
+
+    struct Request {
+        RequestType requestType;
+        wstring userID;
+        wstring appointmentID;
+        AppointmentType appointmentType;
+        wstring secondAppointmentID;
+        AppointmentType secondAppointmentType;
+        long capacity;
+    };
+};
+
+#endif
