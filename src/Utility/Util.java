@@ -1,13 +1,13 @@
 package Utility;
 
-import Network.AppointmentType;
-import Network.Request;
+import CORBA.Network.AppointmentType;
+import CORBA.Network.Request;
 
 public class Util {
     public static Request InitNetworkRequest() {
         Request toRet = new Request();
         // Dummy request type
-        toRet.requestType = Network.RequestType.GET_APPOINTMENT_SCHEDULE;
+        toRet.requestType = CORBA.Network.RequestType.GET_APPOINTMENT_SCHEDULE;
         toRet.userID = "";
         toRet.appointmentID = "";
         toRet.appointmentType = AppointmentType.NONE;
