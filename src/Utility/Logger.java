@@ -1,6 +1,6 @@
 package Utility;
 
-import Network.*;
+import CORBA.Network.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
