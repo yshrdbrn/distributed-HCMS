@@ -6,6 +6,7 @@ import Config.SystemConfig;
 import Model.Network.Request;
 import Model.Network.Response;
 import Networking.CustomPacket;
+import Networking.CustomPacketType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -101,6 +102,10 @@ public class FrontEnd extends Component {
 
     @Override
     public void handleCustomPacket(CustomPacket customPacket) {
-
+        if (customPacket.getType() == CustomPacketType.RESPONSE) {
+            responses.add(customPacket);
+        } else {
+            assert false;
+        }
     }
 }
