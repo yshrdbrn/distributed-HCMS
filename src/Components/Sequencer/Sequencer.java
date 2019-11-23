@@ -5,7 +5,6 @@ import Config.ComponentConfig;
 import Config.SystemConfig;
 import Model.Network.Request;
 import Networking.CustomPacket;
-import Networking.CustomPacketType;
 import Networking.ReliablePacketHandler;
 
 import java.util.ArrayList;
@@ -41,12 +40,25 @@ public class Sequencer extends Component {
         packetHandler.sendPacket(newCustomPacket, SystemConfig.Richter);
     }
 
+    private void sendWantRequest(CustomPacket customPacket) {
+        Request wantRequest = null;
+        for(Request r : allRequestsReceived) {
+            if (r.getLabel() == customPacket.getRequest().getLabel()) {
+                wantRequest = r;
+            }
+        }
+
+        if (wantRequest == null) assert false;
+        CustomPacket newCustomPacket = initRequestPacket(wantRequest);
+        packetHandler.sendPacket(newCustomPacket, customPacket.getSender());
+    }
+
+
     @Override
     public void handleCustomPacket(CustomPacket customPacket) {
         switch (customPacket.getType()) {
             case WANT_PACKET:
-                //ReliableCustomPacket.send(CustomPacket)
-                //TODO: send want packet
+                sendWantRequest(customPacket);
             case REQUEST:
                 sendToAllReplicas(customPacket);
         }
