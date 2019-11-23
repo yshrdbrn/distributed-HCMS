@@ -30,7 +30,10 @@ public class ReliablePacketHandler {
         gson = new Gson();
         allReceivedPackets = new HashSet<>();
 
-        startListening(component.getConfig().getPort());
+        int port = component.getConfig().getPort();
+        Runnable task = () -> startListening(port);
+        Thread thread = new Thread(task);
+        thread.start();
     }
 
     // Starts a UDP server on given port
