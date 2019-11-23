@@ -5,14 +5,17 @@ import Model.Network.Request;
 import Model.Network.Response;
 import Networking.CustomPacket;
 import Networking.CustomPacketType;
+import Networking.ReliablePacketHandler;
 
 public abstract class Component {
     private ComponentConfig config;
     private int packetIDCounter;
+    protected ReliablePacketHandler packetHandler;
 
     public Component(ComponentConfig config) {
         this.config = config;
         packetIDCounter = 0;
+        this.packetHandler = new ReliablePacketHandler(this);
     }
 
     protected CustomPacket initRequestPacket(Request request) {
