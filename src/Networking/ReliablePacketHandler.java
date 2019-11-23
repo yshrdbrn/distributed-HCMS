@@ -24,13 +24,13 @@ public class ReliablePacketHandler {
     private final AckStatus ackStatus;
     private HashSet<CustomPacket> allReceivedPackets;
 
-    public ReliablePacketHandler(Component component, int port) {
+    public ReliablePacketHandler(Component component) {
         this.component = component;
         ackStatus = new AckStatus();
         gson = new Gson();
         allReceivedPackets = new HashSet<>();
 
-        startListening(port);
+        startListening(component.getConfig().getPort());
     }
 
     // Starts a UDP server on given port

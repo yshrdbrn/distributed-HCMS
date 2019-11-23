@@ -4,13 +4,17 @@ import Components.Component;
 import Config.ComponentConfig;
 import Model.Network.Request;
 import Networking.CustomPacket;
-import java.util.ArrayList;
+import Networking.ReliablePacketHandler;
 
+import java.util.ArrayList;
 
 public class Sequencer extends Component {
     private int counter;
-    private ArrayList<CustomPacket> packetsReceived;
-    private CustomPacket customPacket;
+    private ReliablePacketHandler packetHandler;
+
+    public void main(String[] args) {
+        packetHandler = new ReliablePacketHandler(this);
+    }
 
     public Sequencer(ComponentConfig config) {
         super(config);
