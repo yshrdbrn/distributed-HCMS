@@ -14,8 +14,6 @@ module Network {
         Response CancelAppointment(in Request request);
         Response SwapAppointment(in Request request);
         Response GetAppointmentSchedule(in Request request);
-
-        wstring GetFullID(in wstring id);
     };
 };
 
