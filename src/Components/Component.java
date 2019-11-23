@@ -30,4 +30,17 @@ public abstract class Component {
     protected CustomPacket initWantPacket(int packetNumber) {
         return new CustomPacket(config, packetIDCounter++, CustomPacketType.WANT_PACKET, packetNumber);
     }
+
+    public abstract void handleCustomPacket(CustomPacket customPacket);
+
+    //
+    // The following two methods are used by ReliablePacketHandler class
+    //
+    public ComponentConfig getConfig() {
+        return config;
+    }
+
+    public int generatePacketID() {
+        return packetIDCounter++;
+    }
 }
