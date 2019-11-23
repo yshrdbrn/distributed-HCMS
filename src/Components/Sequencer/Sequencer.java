@@ -21,10 +21,6 @@ public class Sequencer extends Component {
         super(config);
     }
 
-    public void packetReceived() {
-
-    }
-
     private void labelizeRequest(Request request) {
         request.setLabel(++counter);
     }
@@ -41,13 +37,7 @@ public class Sequencer extends Component {
     }
 
     private void sendWantRequest(CustomPacket customPacket) {
-        Request wantRequest = null;
-        for(Request r : allRequestsReceived) {
-            if (r.getLabel() == customPacket.getRequest().getLabel()) {
-                wantRequest = r;
-            }
-        }
-
+        Request wantRequest = allRequestsReceived.get(customPacket.getWantRequestNumber());
         if (wantRequest == null) assert false;
         CustomPacket newCustomPacket = initRequestPacket(wantRequest);
         packetHandler.sendPacket(newCustomPacket, customPacket.getSender());
