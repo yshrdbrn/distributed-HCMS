@@ -2,6 +2,7 @@ package Model.Network;
 
 import Model.Appointment.Appointment;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Response {
@@ -55,6 +56,35 @@ public class Response {
         }
 
         return toRet;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Response response = (Response) o;
+
+        if (successful != response.successful) return false;
+        if (!message.equals(response.message)) return false;
+        if (data != null ^ response.data != null) return false;
+        if (data.size() != response.data.size()) return false;
+        // Compare their data
+        Collections.sort(data);
+        Collections.sort(response.data);
+        for (int i = 0; i < data.size(); i++) {
+            if (!data.get(i).equals(response.data.get(i)))
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (successful ? 1 : 0);
+        result = 31 * result + message.hashCode();
+        result = 31 * result + (data != null ? data.hashCode() : 0);
+        return result;
     }
 
     @Override

@@ -2,47 +2,102 @@ package Components.FrontEnd;
 
 import Components.Component;
 import Config.ComponentConfig;
+import Config.SystemConfig;
 import Model.Network.Request;
 import Model.Network.Response;
 import Networking.CustomPacket;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class FrontEnd extends Component {
+    private final List<CustomPacket> responses;
+    private int[] inconsistentResultCounter;
+
     FrontEnd(ComponentConfig config) {
         super(config);
+        responses = Collections.synchronizedList(new ArrayList<>());
+        inconsistentResultCounter = new int[3];
     }
 
-    Response AddAppointment(Request request) {
+    Response handleRequest(Request request) {
+        responses.clear();
+        packetHandler.sendPacket(initRequestPacket(request), SystemConfig.Sequencer);
+        return processResponses();
+    }
+
+    private Response processResponses() {
+        int counter = 0;
+        while (counter < 10) { // Check if all responses are received for 10 times
+            if (responses.size() == 3)
+                break;
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            counter++;
+        }
+
+        checkIfAReplicaCrashed();
+        updateInconsistentResultCounter();
+        checkIfAResponseIsIncorrect();
+
+        // Return the correct result
+        for (int i = 0; i < responses.size(); i++) {
+            if (inconsistentResultCounter[i] < 2)
+                return responses.get(i).getResponse();
+        }
+
+        // should not reach this line
+        assert false;
         return null;
     }
 
-    Response RemoveAppointment(Request request) {
-        return null;
+    private void checkIfAReplicaCrashed() {
+        assert responses.size() > 1;
+
+        // One replica crashed
+        if (responses.size() != 3) {
+            // Send Fault packet to the faulty replica manager
+            ComponentConfig[] replicaManagers = {SystemConfig.Bowser, SystemConfig.Kirby, SystemConfig.Richter};
+            for (ComponentConfig replicaManager: replicaManagers) {
+                boolean found = false;
+                for (CustomPacket res : responses) {
+                    if (res.getSender().equals(replicaManager)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                    packetHandler.sendPacket(initFaultPacket(), replicaManager);
+            }
+        }
     }
 
-    Response ListAppointmentAvailability(Request request) {
-        return null;
+    private void updateInconsistentResultCounter() {
+        for (int i = 0; i < 3; i++)
+            inconsistentResultCounter[i] = 0;
     }
 
-    Response BookAppointment(Request request) {
-        return null;
+    /**
+     * Checks if all responses are similar or not
+     * This method uses the inconsistentResultCounter array to keep track of how many inconsistencies
+     * each response has. The number of each index shows how many inconsistencies each response has comparing to other
+     * responses.
+     */
+    private void checkIfAResponseIsIncorrect() {
+        for (int i = 0; i < responses.size(); i++)
+            for (int j = i + 1; j < responses.size(); j++)
+                if (!responses.get(i).getSender().equals(responses.get(j).getSender())) {
+                    inconsistentResultCounter[i]++;
+                    inconsistentResultCounter[j]++;
+                }
+        for (int i = 0; i < responses.size(); i++)
+            if (inconsistentResultCounter[i] > 1)
+                packetHandler.sendPacket(initFaultPacket(), responses.get(i).getSender());
     }
-
-    Response CancelAppointment(Request request) {
-        return null;
-    }
-
-    Response SwapAppointment(Request request) {
-        return null;
-    }
-
-    Response GetAppointmentSchedule(Request request) {
-        return null;
-    }
-
-    String GetFullID(String id) {
-        return null;
-    }
-
 
     @Override
     public void handleCustomPacket(CustomPacket customPacket) {
