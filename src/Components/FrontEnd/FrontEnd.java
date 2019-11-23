@@ -62,8 +62,7 @@ public class FrontEnd extends Component {
         // One replica crashed
         if (responses.size() != 3) {
             // Send Fault packet to the faulty replica manager
-            ComponentConfig[] replicaManagers = {SystemConfig.Bowser, SystemConfig.Kirby, SystemConfig.Richter};
-            for (ComponentConfig replicaManager: replicaManagers) {
+            for (ComponentConfig replicaManager: SystemConfig.ReplicaManagers) {
                 boolean found = false;
                 for (CustomPacket res : responses) {
                     if (res.getSender().equals(replicaManager)) {

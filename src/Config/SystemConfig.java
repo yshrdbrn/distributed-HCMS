@@ -11,6 +11,8 @@ public final class SystemConfig {
     public static ComponentConfig Sequencer;
     public static ComponentConfig FrontEnd;
 
+    public static ComponentConfig[] ReplicaManagers;
+
     static {
         try {
             Bowser = new ComponentConfig("Bowser", InetAddress.getLocalHost(), 2000);
@@ -18,6 +20,7 @@ public final class SystemConfig {
             Richter = new ComponentConfig("Richter", InetAddress.getLocalHost(), 2200);
             Sequencer = new ComponentConfig("Sequencer", InetAddress.getLocalHost(), 2300);
             FrontEnd = new ComponentConfig("FrontEnd", InetAddress.getLocalHost(), 2400);
+            ReplicaManagers = new ComponentConfig[]{SystemConfig.Bowser, SystemConfig.Kirby, SystemConfig.Richter};
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

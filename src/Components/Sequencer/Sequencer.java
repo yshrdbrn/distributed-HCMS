@@ -28,11 +28,10 @@ public class Sequencer extends Component {
         Request request = customPacket.getRequest();
         labelizeRequest(request);
         allRequestsReceived.add(request);
-        CustomPacket newCustomPacket = initRequestPacket(request);
 
-        packetHandler.sendPacket(newCustomPacket, SystemConfig.Bowser);
-        packetHandler.sendPacket(newCustomPacket, SystemConfig.Kirby);
-        packetHandler.sendPacket(newCustomPacket, SystemConfig.Richter);
+        CustomPacket newCustomPacket = initRequestPacket(request);
+        for (ComponentConfig replicaManager: SystemConfig.ReplicaManagers)
+            packetHandler.sendPacket(newCustomPacket, replicaManager);
     }
 
     private void sendWantRequest(CustomPacket customPacket) {
