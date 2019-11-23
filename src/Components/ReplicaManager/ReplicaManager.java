@@ -2,6 +2,7 @@ package Components.ReplicaManager;
 
 import Components.Component;
 import Config.ComponentConfig;
+import Config.SystemConfig;
 import Model.Network.Request;
 import Model.Network.RequestComparator;
 import Networking.CustomPacket;
@@ -22,9 +23,15 @@ public class ReplicaManager extends Component {
     }
 
     private void handleRequest(Request request) {
-        while(requestsQueue.peek().getLabel() - lastHandledRequest.getLabel() == 1 && !requestsQueue.isEmpty()) {
+
+        while(!requestsQueue.isEmpty() && requestsQueue.peek().getLabel() - lastHandledRequest.getLabel() == 1) {
             lastHandledRequest = requestsQueue.poll();
             //send the request to the router
+        }
+
+        for(int i = lastHandledRequest.getLabel() + 1; !requestsQueue.isEmpty() && i < requestsQueue.peek().getLabel(); i++) {
+                CustomPacket wantRequestPacket = initWantPacket(i);
+                packetHandler.sendPacket(wantRequestPacket, SystemConfig.Sequencer);
         }
     }
 
@@ -34,7 +41,6 @@ public class ReplicaManager extends Component {
             case REQUEST:
                 requestsQueue.add(customPacket.getRequest());
                 handleRequest(customPacket.getRequest());
-
         }
     }
 }
