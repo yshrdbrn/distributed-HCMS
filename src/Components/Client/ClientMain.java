@@ -54,7 +54,7 @@ public class ClientMain {
         String userID;
         while (true) {
             String localUserID = scanner.next();
-            userID = userServer.GetFullID(localUserID);
+            userID = "";
             if (!userID.equals("-1"))
                 break;
             System.out.println("User doesn't exist. Try again.");

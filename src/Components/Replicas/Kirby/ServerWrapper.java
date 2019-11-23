@@ -213,9 +213,4 @@ public class ServerWrapper extends ServerPOA {
             Logger.logEvent(logFileName, networkRequest, networkResponse, LocalDateTime.now());
         return networkResponse;
     }
-
-    @Override
-    public String GetFullID(String id) {
-        return localServer.GetFullID(id);
-    }
 }
