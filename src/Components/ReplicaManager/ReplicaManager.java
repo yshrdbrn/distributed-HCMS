@@ -13,6 +13,7 @@ import java.util.PriorityQueue;
 public class ReplicaManager extends Component {
     private PriorityQueue<Request> requestsQueue = new PriorityQueue<>(20, new RequestComparator());
     private Request lastHandledRequest = new Request();
+    private int faultCounter = 0;
 
     public void main(String[] args) {
         packetHandler = new ReliablePacketHandler(this);
@@ -29,11 +30,18 @@ public class ReplicaManager extends Component {
             //send the request to the router
         }
 
-        for(int i = lastHandledRequest.getLabel() + 1; !requestsQueue.isEmpty() && i < requestsQueue.peek().getLabel(); i++) {
-                CustomPacket wantRequestPacket = initWantPacket(i);
-                packetHandler.sendPacket(wantRequestPacket, SystemConfig.Sequencer);
+        for(int i = lastHandledRequest.getLabel() + 1; !requestsQueue.isEmpty() && i < requestsQueue.peek().getLabel(); i++)
+                packetHandler.sendPacket(initWantPacket(i), SystemConfig.Sequencer);
+
+    }
+
+    private void handleFaultState() {
+        faultCounter++;
+        if(faultCounter == 3) {
+            //kill replica
         }
     }
+
 
     @Override
     public void handleCustomPacket(CustomPacket customPacket) {
@@ -41,6 +49,8 @@ public class ReplicaManager extends Component {
             case REQUEST:
                 requestsQueue.add(customPacket.getRequest());
                 handleRequest(customPacket.getRequest());
+            case FAULT:
+                handleFaultState();
         }
     }
 }
