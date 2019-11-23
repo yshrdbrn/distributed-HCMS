@@ -16,7 +16,6 @@ public class Request {
     private AppointmentType secondAppointmentType;
     private int capacity;
     private List<Appointment> appointments;
-    private int label;
 
     public Request() {
         this.requestType = null;
@@ -27,7 +26,6 @@ public class Request {
         secondAppointmentType = null;
         capacity = -1;
         appointments = null;
-        label = 0;
     }
 
     public Request(RequestType requestType, String userID) {
@@ -39,7 +37,6 @@ public class Request {
         secondAppointmentType = null;
         capacity = -1;
         appointments = null;
-        label = 0;
     }
 
     public Request(CORBA.Network.Request request) {
@@ -86,8 +83,8 @@ public class Request {
         }
 
         this.capacity = request.capacity;
+
         this.appointments = null;
-        this.label = 0;
     }
 
     private AppointmentType NetworkAppointmentTypeToServerAppointmentType(CORBA.Network.AppointmentType type) {
@@ -132,8 +129,28 @@ public class Request {
         this.appointmentType = appointmentType;
     }
 
+    public AppointmentID getSecondAppointmentID() {
+        return secondAppointmentID;
+    }
+
+    public void setSecondAppointmentID(AppointmentID secondAppointmentID) {
+        this.secondAppointmentID = secondAppointmentID;
+    }
+
+    public AppointmentType getSecondAppointmentType() {
+        return secondAppointmentType;
+    }
+
+    public void setSecondAppointmentType(AppointmentType secondAppointmentType) {
+        this.secondAppointmentType = secondAppointmentType;
+    }
+
     public int getCapacity() {
         return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public List<Appointment> getAppointments() {
@@ -142,14 +159,6 @@ public class Request {
 
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
-    }
-
-    public int getLabel() {
-        return label;
-    }
-
-    public void setLabel(int label) {
-        this.label = label;
     }
 
     @Override
