@@ -1,10 +1,11 @@
 package Networking;
 
+import Config.ComponentConfig;
 import Model.Network.Request;
 import Model.Network.Response;
 
 public class CustomPacket {
-    String sender;
+    ComponentConfig sender;
     int packetID;
 
     CustomPacketType type;
@@ -12,11 +13,38 @@ public class CustomPacket {
     Request request;
     Response response;
 
-    public String getSender() {
+    public CustomPacket(ComponentConfig sender, int packetID, CustomPacketType type) {
+        this.sender = sender;
+        this.packetID = packetID;
+        this.type = type;
+    }
+
+    public CustomPacket(ComponentConfig sender, int packetID, CustomPacketType type, int wantRequestNumber) {
+        this.sender = sender;
+        this.packetID = packetID;
+        this.type = type;
+        this.wantRequestNumber = wantRequestNumber;
+    }
+
+    public CustomPacket(ComponentConfig sender, int packetID, CustomPacketType type, Request request) {
+        this.sender = sender;
+        this.packetID = packetID;
+        this.type = type;
+        this.request = request;
+    }
+
+    public CustomPacket(ComponentConfig sender, int packetID, CustomPacketType type, Response response) {
+        this.sender = sender;
+        this.packetID = packetID;
+        this.type = type;
+        this.response = response;
+    }
+
+    public ComponentConfig getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
+    public void setSender(ComponentConfig sender) {
         this.sender = sender;
     }
 

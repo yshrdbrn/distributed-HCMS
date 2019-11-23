@@ -1,0 +1,33 @@
+package Components;
+
+import Config.ComponentConfig;
+import Model.Network.Request;
+import Model.Network.Response;
+import Networking.CustomPacket;
+import Networking.CustomPacketType;
+
+public abstract class Component {
+    private ComponentConfig config;
+    private int packetIDCounter;
+
+    public Component(ComponentConfig config) {
+        this.config = config;
+        packetIDCounter = 0;
+    }
+
+    protected CustomPacket initRequestPacket(Request request) {
+        return new CustomPacket(config, packetIDCounter++, CustomPacketType.REQUEST, request);
+    }
+
+    protected CustomPacket initResponsePacket(Response response) {
+        return new CustomPacket(config, packetIDCounter++, CustomPacketType.RESPONSE, response);
+    }
+
+    protected CustomPacket initFaultPacket() {
+        return new CustomPacket(config, packetIDCounter++, CustomPacketType.FAULT);
+    }
+
+    protected CustomPacket initWantPacket(int packetNumber) {
+        return new CustomPacket(config, packetIDCounter++, CustomPacketType.WANT_PACKET, packetNumber);
+    }
+}
