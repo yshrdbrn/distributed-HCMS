@@ -34,7 +34,7 @@ public class Sequencer extends Component {
         Request request = customPacket.getRequest();
         labelizeRequest(request);
         allRequestsReceived.add(request);
-        CustomPacket newCustomPacket = new CustomPacket(getConfig(), generatePacketID(), CustomPacketType.REQUEST, request);
+        CustomPacket newCustomPacket = initRequestPacket(request);
 
         packetHandler.sendPacket(newCustomPacket, SystemConfig.Bowser);
         packetHandler.sendPacket(newCustomPacket, SystemConfig.Kirby);
@@ -49,7 +49,6 @@ public class Sequencer extends Component {
                 //TODO: send want packet
             case REQUEST:
                 sendToAllReplicas(customPacket);
-                //TODO: send request object
         }
     }
 }
