@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.sql.SQLOutput;
 import java.util.HashSet;
 
 public class ReliablePacketHandler {
@@ -48,19 +49,20 @@ public class ReliablePacketHandler {
                 String json = new String(incomingPacket.getData(), 0, incomingPacket.getLength());
                 CustomPacket receivedPacket = gson.fromJson(json, CustomPacket.class);
 
-                // Send ACK to sender
-                CustomPacket ackPacket = new CustomPacket(component.getConfig(), component.generatePacketID(), CustomPacketType.ACK);
-                sendPacketToNetwork(ackPacket, receivedPacket.getSender());
-
                 // If packet is not duplicated, add the packet to hashset
                 if (isPacketDuplicated(receivedPacket))
                     continue;
+
                 allReceivedPackets.add(receivedPacket);
                 if (receivedPacket.getType() == CustomPacketType.ACK) {
                     synchronized (ackStatus) {
                         ackStatus.ackReceived = true;
                     }
                 } else {
+                    // Send ACK to sender
+                    CustomPacket ackPacket = new CustomPacket(component.getConfig(), component.generatePacketID(), CustomPacketType.ACK);
+                    sendPacketToNetwork(ackPacket, receivedPacket.getSender());
+
                     component.handleCustomPacket(receivedPacket);
                 }
             }
@@ -84,8 +86,9 @@ public class ReliablePacketHandler {
                 counter++;
                 Thread.sleep(500);
                 synchronized (ackStatus) {
-                    if (ackStatus.ackReceived)
+                    if (ackStatus.ackReceived) {
                         break;
+                    }
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
