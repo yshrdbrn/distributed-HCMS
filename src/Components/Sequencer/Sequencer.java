@@ -12,12 +12,13 @@ import java.util.ArrayList;
 public class Sequencer extends Component {
     private int counter;
     private ArrayList<Request> allRequestsReceived;
-    public void main(String[] args) {
-        packetHandler = new ReliablePacketHandler(this);
+
+    public static void main(String[] args) {
+        Sequencer sequencer = new Sequencer();
     }
 
-    public Sequencer(ComponentConfig config) {
-        super(config);
+    public Sequencer() {
+        super(SystemConfig.Sequencer);
     }
 
     private void labelizeRequest(Request request) {
@@ -47,8 +48,10 @@ public class Sequencer extends Component {
         switch (customPacket.getType()) {
             case WANT_PACKET:
                 sendWantRequest(customPacket);
+                break;
             case REQUEST:
                 sendToAllReplicas(customPacket);
+                break;
         }
     }
 }
