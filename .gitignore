@@ -124,3 +124,6 @@ Temporary Items
 
 # MacOS JENV files
 .java-version
+
+# Logger log files
+logs/*
