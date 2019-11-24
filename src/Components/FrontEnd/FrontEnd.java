@@ -95,7 +95,7 @@ public class FrontEnd extends Component {
     private void checkIfAResponseIsIncorrect() {
         for (int i = 0; i < responses.size(); i++)
             for (int j = i + 1; j < responses.size(); j++)
-                if (!responses.get(i).getSender().equals(responses.get(j).getSender())) {
+                if (!responses.get(i).getResponse().equals(responses.get(j).getResponse())) {
                     inconsistentResultCounter[i]++;
                     inconsistentResultCounter[j]++;
                 }
