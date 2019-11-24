@@ -33,10 +33,10 @@ public class FrontEnd extends Component {
         while (counter < 10) { // Check if all responses are received for 10 times
             if (responses.size() == 3)
                 break;
-            // TODO: Remove this part
-            // For test
-            if (responses.size() >= 1)
-                return responses.get(0).getResponse();
+//            // TODO: Remove this part
+//            // For test
+//            if (responses.size() >= 1)
+//                return responses.get(0).getResponse();
 
             try {
                 Thread.sleep(500);

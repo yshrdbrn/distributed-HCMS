@@ -29,20 +29,20 @@ public class ReplicaManager extends Component {
         ReplicaManager manager;
         switch (n) {
             case 1:
-                manager = new ReplicaManager(SystemConfig.Kirby);
+                manager = new ReplicaManager(SystemConfig.Kirby, 0);
                 break;
             case 2:
-                manager = new ReplicaManager(SystemConfig.Bowser);
+                manager = new ReplicaManager(SystemConfig.Bowser, 1000);
                 break;
             case 3:
-                manager = new ReplicaManager(SystemConfig.Richter);
+                manager = new ReplicaManager(SystemConfig.Richter, 2000);
                 break;
         }
     }
 
-    private ReplicaManager(ComponentConfig config) {
+    private ReplicaManager(ComponentConfig config, int add) {
         super(config);
-        replica = new Kirby();
+        replica = new Kirby(add);
         lastHandledRequest.setLabel(0);
     }
 

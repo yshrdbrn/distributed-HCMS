@@ -32,9 +32,9 @@ public class Sequencer extends Component {
         allRequestsReceived.add(request);
 
         CustomPacket newCustomPacket = initRequestPacket(request);
-        packetHandler.sendPacket(newCustomPacket, SystemConfig.Kirby);
-//        for (ComponentConfig replicaManager: SystemConfig.ReplicaManagers)
-//            packetHandler.sendPacket(newCustomPacket, replicaManager);
+//        packetHandler.sendPacket(newCustomPacket, SystemConfig.Kirby);
+        for (ComponentConfig replicaManager: SystemConfig.ReplicaManagers)
+            packetHandler.sendPacket(newCustomPacket, replicaManager);
     }
 
     private void sendWantRequest(CustomPacket customPacket) {
