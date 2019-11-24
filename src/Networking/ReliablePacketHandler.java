@@ -70,9 +70,7 @@ public class ReliablePacketHandler {
                         CustomPacket ackPacket = new CustomPacket(component.getConfig(), component.generatePacketID(), CustomPacketType.ACK);
                         sendPacketToNetwork(ackPacket, receivedPacket.getSender());
                     };
-                    Runnable handlePacket = () -> {
-                        component.handleCustomPacket(receivedPacket);
-                    };
+                    Runnable handlePacket = () -> component.handleCustomPacket(receivedPacket);
 
                     Thread thread1 = new Thread(sendAck);
                     Thread thread2 = new Thread(handlePacket);
