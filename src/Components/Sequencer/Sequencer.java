@@ -17,8 +17,9 @@ public class Sequencer extends Component {
         Sequencer sequencer = new Sequencer();
     }
 
-    public Sequencer() {
+    private Sequencer() {
         super(SystemConfig.Sequencer);
+        allRequestsReceived = new ArrayList<>();
     }
 
     private void labelizeRequest(Request request) {
@@ -31,8 +32,9 @@ public class Sequencer extends Component {
         allRequestsReceived.add(request);
 
         CustomPacket newCustomPacket = initRequestPacket(request);
-        for (ComponentConfig replicaManager: SystemConfig.ReplicaManagers)
-            packetHandler.sendPacket(newCustomPacket, replicaManager);
+        packetHandler.sendPacket(newCustomPacket, SystemConfig.Kirby);
+//        for (ComponentConfig replicaManager: SystemConfig.ReplicaManagers)
+//            packetHandler.sendPacket(newCustomPacket, replicaManager);
     }
 
     private void sendWantRequest(CustomPacket customPacket) {
@@ -50,6 +52,7 @@ public class Sequencer extends Component {
                 sendWantRequest(customPacket);
                 break;
             case REQUEST:
+                System.out.println("Received Request");
                 sendToAllReplicas(customPacket);
                 break;
         }

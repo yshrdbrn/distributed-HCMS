@@ -1,0 +1,31 @@
+***
+dateTime = 2019-11-23T21:06:34.040
+Request{
+	requestType=ADD_APPOINTMENT,
+	user=MTLA1234,
+	appointmentID={ID = 'MTLA101019', City = 'MTL', Date = 2019-10-10, Time of day = AFTERNOON},
+	appointmentType=PHYSICIAN,
+	capacity=3
+}
+Response{
+	successful=true,
+	message='Success.'
+}
+
+
+***
+dateTime = 2019-11-23T21:07:07.403
+Request{
+	requestType=LIST_APPOINTMENT_AVAILABILITY,
+	user=MTLA1234,
+	appointmentType=PHYSICIAN
+}
+Response{
+	successful=true,
+	message='Success.',
+	appointments=[
+		{ID = 'MTLA101019', City = 'MTL', Date = 2019-10-10, Time of day = AFTERNOON, Type = PHYSICIAN},
+	],
+}
+
+

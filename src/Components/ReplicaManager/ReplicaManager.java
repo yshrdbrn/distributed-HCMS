@@ -23,6 +23,7 @@ public class ReplicaManager extends Component {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("1 for Kirby, 2 for Bowser, 3 for Richter:");
         int n = scanner.nextInt();
 
         ReplicaManager manager;
