@@ -100,6 +100,7 @@ public class ReliablePacketHandler {
             byte[] data = json.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(data, data.length, destination.getAddress(), destination.getPort());
             socket.send(sendPacket);
+            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
