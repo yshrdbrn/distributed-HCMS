@@ -26,6 +26,24 @@ public class Logger {
         }
     }
 
+    public static void logEvent(String logFileName, Model.Network.Request request, Model.Network.Response response, LocalDateTime dateTime) {
+        PrintWriter printWriter = null;
+        try {
+            FileWriter fileWriter = new FileWriter("logs/" + logFileName, true);
+            printWriter = new PrintWriter(fileWriter);
+            printWriter.println("***");
+            printWriter.println("dateTime = " + dateTime);
+            printWriter.println(request);
+            printWriter.println(response);
+            printWriter.println("\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (printWriter != null)
+                printWriter.close();
+        }
+    }
+
     public static String Print(Request request) {
         String toRet;
         toRet = "Request{" +

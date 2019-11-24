@@ -1,17 +1,15 @@
 package Components.Replicas.Kirby;
 
-import CORBA.Network.RequestType;
 import Model.Appointment.Appointment;
 import Model.Network.Request;
 import Model.Network.Response;
 import Utility.Logger;
-import Utility.Util;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServerWrapper {
+class ServerWrapper {
     private LocalServer localServer;
     private UDPServer udpServer;
     private String serverName;
@@ -40,8 +38,13 @@ public class ServerWrapper {
                 return bookAppointment(request);
             case CANCEL_APPOINTMENT:
                 return cancelAppointment(request);
+            case SWAP_APPOINTMENT:
+                return swapAppointment(request);
             case GET_APPOINTMENT_SCHEDULE:
                 return getAppointmentSchedule(request);
+            default:
+                assert false;
+                return null;
         }
     }
 
@@ -62,10 +65,6 @@ public class ServerWrapper {
 
         Logger.logEvent(logFileName, request, response, LocalDateTime.now());
         return response;
-    }
-
-    private Response HandleRequestForPatient(Request request) {
-        return HandleRequestForPatient(request, false);
     }
 
     private Response HandleRequestForPatient(Request request, boolean internalRequest) {
