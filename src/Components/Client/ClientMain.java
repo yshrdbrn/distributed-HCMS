@@ -21,44 +21,23 @@ public class ClientMain {
         org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
         NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 
-        HashMap<String, Server> servers = new HashMap<>();
-        for (String serverName : serverNames)
-            servers.put(serverName, ServerHelper.narrow(ncRef.resolve_str(serverName)));
+        Server pointOfContact = ServerHelper.narrow(ncRef.resolve_str("FrontEnd"));
 
-        Server userServer = getUserServer(serverNames, servers);
-        String userID = getUserID(userServer);
-        Client client = new Client(userServer, userID);
+        String userID = getUserID();
+        Client client = new Client(pointOfContact, userID);
         client.start();
     }
 
-    private static Server getUserServer(String[] serverNames, HashMap<String, Server> servers) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter the server which your account is located in:");
-        for (int i = 0; i < serverNames.length; i++)
-            System.out.println((i+1) + ". " + serverNames[i]);
-
-        // Select the server to connect to
-        int choice;
-        while (true) {
-            choice = scanner.nextInt();
-            if (choice >= 1 && choice <= serverNames.length)
-                break;
-            System.out.println("Error. Please select the one of the servers above.");
-        }
-        return servers.get(serverNames[choice - 1]);
-    }
-
-    private static String getUserID(Server userServer) {
+    private static String getUserID() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter your local user ID:");
-        String userID;
+        String localUserID;
         while (true) {
-            String localUserID = scanner.next();
-            userID = "";
-            if (!userID.equals("-1"))
+            localUserID = scanner.next();
+            if (!localUserID.equals("-1"))
                 break;
             System.out.println("User doesn't exist. Try again.");
         }
-        return userID;
+        return localUserID;
     }
 }
