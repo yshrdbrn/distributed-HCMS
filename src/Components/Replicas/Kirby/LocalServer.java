@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 class LocalServer {
-    private HashMap<String, User> userbase;
     private HashMap<AppointmentType, TreeMap<AppointmentID, Appointment>> database;
 
     LocalServer() {
@@ -20,7 +19,6 @@ class LocalServer {
     }
 
     private void init() {
-        userbase = new HashMap<>();
         database = new HashMap<>();
         for(AppointmentType type: AppointmentType.values())
             database.put(type, new TreeMap<>());
@@ -47,17 +45,6 @@ class LocalServer {
         // Shouldn't reach this line
         assert false;
         return null;
-    }
-
-    String GetFullID(String id) {
-        User user = userbase.get(id);
-        if (user != null)
-            return user.getId();
-        return "-1";
-    }
-
-    void addUserForTest(User user) {
-        userbase.put(user.getLocalID(), user);
     }
 
     // Admin Methods

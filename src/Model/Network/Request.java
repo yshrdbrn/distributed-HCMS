@@ -116,8 +116,32 @@ public class Request {
         return appointmentID;
     }
 
+    public void setAppointmentID(AppointmentID appointmentID) {
+        this.appointmentID = appointmentID;
+    }
+
     public AppointmentType getAppointmentType() {
         return appointmentType;
+    }
+
+    public void setAppointmentType(AppointmentType appointmentType) {
+        this.appointmentType = appointmentType;
+    }
+
+    public AppointmentID getSecondAppointmentID() {
+        return secondAppointmentID;
+    }
+
+    public void setSecondAppointmentID(AppointmentID secondAppointmentID) {
+        this.secondAppointmentID = secondAppointmentID;
+    }
+
+    public AppointmentType getSecondAppointmentType() {
+        return secondAppointmentType;
+    }
+
+    public void setSecondAppointmentType(AppointmentType secondAppointmentType) {
+        this.secondAppointmentType = secondAppointmentType;
     }
 
     public int getCapacity() {

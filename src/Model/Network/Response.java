@@ -40,6 +40,10 @@ public class Response {
         return message;
     }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public List<Appointment> getData() {
         return data;
     }
