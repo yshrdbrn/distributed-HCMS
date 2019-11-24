@@ -65,17 +65,13 @@ public class ReliablePacketHandler {
                         ackStatus.ackReceived = true;
                     }
                 } else {
-                    Runnable sendAck = () -> {
-                        // Send ACK to sender
-                        CustomPacket ackPacket = new CustomPacket(component.getConfig(), component.generatePacketID(), CustomPacketType.ACK);
-                        sendPacketToNetwork(ackPacket, receivedPacket.getSender());
-                    };
-                    Runnable handlePacket = () -> component.handleCustomPacket(receivedPacket);
+                    // Send ACK to sender
+                    CustomPacket ackPacket = new CustomPacket(component.getConfig(), component.generatePacketID(), CustomPacketType.ACK);
+                    sendPacketToNetwork(ackPacket, receivedPacket.getSender());
 
-                    Thread thread1 = new Thread(sendAck);
-                    Thread thread2 = new Thread(handlePacket);
-                    thread1.start();
-                    thread2.start();
+                    Runnable handlePacket = () -> component.handleCustomPacket(receivedPacket);
+                    Thread thread = new Thread(handlePacket);
+                    thread.start();
                 }
             }
         } catch (IOException e) {
@@ -84,6 +80,12 @@ public class ReliablePacketHandler {
     }
 
     public void sendPacket(CustomPacket packet, ComponentConfig destination) {
+        Runnable task = () -> sendPacketOtherThread(packet, destination);
+        Thread thread = new Thread(task);
+        thread.start();
+    }
+
+    private void sendPacketOtherThread(CustomPacket packet, ComponentConfig destination) {
         int counter = 0;
         synchronized (ackStatus) {
             ackStatus.ackReceived = false;
