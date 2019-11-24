@@ -49,6 +49,12 @@ public class ReliablePacketHandler {
                 String json = new String(incomingPacket.getData(), 0, incomingPacket.getLength());
                 CustomPacket receivedPacket = gson.fromJson(json, CustomPacket.class);
 
+                if (receivedPacket.getType() == CustomPacketType.ACK) {
+                    System.out.println("Got ACK.");
+                    System.out.println("Sender: " + receivedPacket.getSender().getName());
+                    System.out.println("ID: " + receivedPacket.getPacketID());
+                }
+
                 // If packet is not duplicated, add the packet to hashset
                 if (isPacketDuplicated(receivedPacket))
                     continue;
@@ -59,11 +65,19 @@ public class ReliablePacketHandler {
                         ackStatus.ackReceived = true;
                     }
                 } else {
-                    // Send ACK to sender
-                    CustomPacket ackPacket = new CustomPacket(component.getConfig(), component.generatePacketID(), CustomPacketType.ACK);
-                    sendPacketToNetwork(ackPacket, receivedPacket.getSender());
+                    Runnable sendAck = () -> {
+                        // Send ACK to sender
+                        CustomPacket ackPacket = new CustomPacket(component.getConfig(), component.generatePacketID(), CustomPacketType.ACK);
+                        sendPacketToNetwork(ackPacket, receivedPacket.getSender());
+                    };
+                    Runnable handlePacket = () -> {
+                        component.handleCustomPacket(receivedPacket);
+                    };
 
-                    component.handleCustomPacket(receivedPacket);
+                    Thread thread1 = new Thread(sendAck);
+                    Thread thread2 = new Thread(handlePacket);
+                    thread1.start();
+                    thread2.start();
                 }
             }
         } catch (IOException e) {
@@ -85,8 +99,10 @@ public class ReliablePacketHandler {
                 // Check if the packet arrived
                 counter++;
                 Thread.sleep(500);
+                System.out.println("Counter = " + counter);
                 synchronized (ackStatus) {
                     if (ackStatus.ackReceived) {
+                        System.out.println("Ack received");
                         break;
                     }
                 }
