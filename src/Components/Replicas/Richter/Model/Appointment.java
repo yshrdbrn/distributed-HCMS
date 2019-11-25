@@ -1,6 +1,7 @@
 package Components.Replicas.Richter.Model;
 
 import Model.Appointment.AppointmentID;
+import Model.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -127,6 +128,8 @@ public class Appointment implements Serializable {
         Model.Appointment.AppointmentType appointmentType = AppointmentType.toGeneralAppointmentType(appointment.getAppointmentType());
         int capacity = appointment.getMaxCapacity();
         Model.Appointment.Appointment toReturn = new Model.Appointment.Appointment(appointmentID, appointmentType, capacity);
+        for (Client patient: appointment.getPatients())
+            toReturn.addUser(new User(patient.getID()));
         return toReturn;
     }
 

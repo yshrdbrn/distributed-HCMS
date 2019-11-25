@@ -111,6 +111,7 @@ public class Appointment implements Comparable<Appointment> {
         Appointment that = (Appointment) o;
 
         if (!id.equals(that.id)) return false;
+        if (MAX_CAPACITY - users.size() != that.MAX_CAPACITY - that.users.size()) return false;
         return type == that.type;
     }
 
