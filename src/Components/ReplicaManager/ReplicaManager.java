@@ -3,19 +3,19 @@ package Components.ReplicaManager;
 import Components.Component;
 import Components.Replicas.Kirby.Kirby;
 import Components.Replicas.Replica;
+import Components.Replicas.Richter.Richter;
 import Config.ComponentConfig;
 import Config.SystemConfig;
 import Model.Network.Request;
 import Model.Network.RequestComparator;
 import Model.Network.Response;
 import Networking.CustomPacket;
-import Networking.ReliablePacketHandler;
 
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class ReplicaManager extends Component {
-    private PriorityQueue<Request> requestsQueue = new PriorityQueue<>(20, new RequestComparator());
+    private PriorityQueue<Request> requestsQueue = new PriorityQueue<>(50, new RequestComparator());
     private Request lastHandledRequest = new Request();
     private int faultCounter = 0;
 
@@ -29,20 +29,27 @@ public class ReplicaManager extends Component {
         ReplicaManager manager;
         switch (n) {
             case 1:
-                manager = new ReplicaManager(SystemConfig.Kirby, 0);
+                manager = new ReplicaManager(SystemConfig.Kirby, n);
                 break;
             case 2:
-                manager = new ReplicaManager(SystemConfig.Bowser, 1000);
+                manager = new ReplicaManager(SystemConfig.Bowser, n);
                 break;
             case 3:
-                manager = new ReplicaManager(SystemConfig.Richter, 2000);
+                manager = new ReplicaManager(SystemConfig.Richter, n);
                 break;
         }
     }
 
-    private ReplicaManager(ComponentConfig config, int add) {
+    private ReplicaManager(ComponentConfig config, int n) {
         super(config);
-        replica = new Kirby(add);
+        switch (n) {
+            case 1:
+                replica = new Kirby();
+            case 2:
+                replica = new Richter();
+            case 3:
+                replica = new Richter();
+        }
         lastHandledRequest.setLabel(0);
     }
 
@@ -63,7 +70,7 @@ public class ReplicaManager extends Component {
     private void handleFaultState() {
         faultCounter++;
         if(faultCounter == 3) {
-            //kill replica
+            replica = null;
         }
     }
 
