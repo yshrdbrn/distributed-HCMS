@@ -7,7 +7,6 @@ import Components.Replicas.Richter.Model.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Richter extends Replica {
     public static ArrayList<Server> servers = new ArrayList<Server>();
@@ -31,10 +30,6 @@ public class Richter extends Replica {
         servers.add(QUEServer);
         servers.add(SHEServer);
 
-//        MTLServer.setDatabase(initMTLDatabase());
-//        QUEServer.setDatabase(initQUEDatabase());
-//        SHEServer.setDatabase(initSHEDatabase());
-
         MTLRouter = new Router(MTLServer);
         QUERouter = new Router(QUEServer);
         SHERouter = new Router(SHEServer);
@@ -50,52 +45,6 @@ public class Richter extends Replica {
         connections.add(new Connection("QUE", InetAddress.getLocalHost(), 5005));
         connections.add(new Connection("SHE", InetAddress.getLocalHost(), 5010));
         return connections;
-    }
-
-    private static HashMap<AppointmentType, HashMap<String, Appointment>> initMTLDatabase() {
-        HashMap<AppointmentType, HashMap<String, Appointment>> database = new HashMap<>();
-        HashMap<String, Appointment> value = new HashMap<>();
-        value.put("MTLA100919", new Appointment(AppointmentType.PHYSICIAN, "MTLA100919", 3));
-        value.put("MTLM051019", new Appointment(AppointmentType.PHYSICIAN, "MTLM051019", 5));
-        value.put("MTLE111219", new Appointment(AppointmentType.PHYSICIAN, "MTLE111219", 4));
-        database.put(AppointmentType.PHYSICIAN, value);
-        value = new HashMap<>();
-        value.put("MTLE101119", new Appointment(AppointmentType.DENTAL, "MTLE101119", 1));
-        database.put(AppointmentType.DENTAL, value);
-        value = new HashMap<>();
-        value.put("MTLA051019", new Appointment(AppointmentType.SURGEON, "MTLM051019", 2));
-        database.put(AppointmentType.SURGEON, value);
-        return database;
-    }
-
-    private static HashMap<AppointmentType, HashMap<String, Appointment>> initQUEDatabase() {
-        HashMap<AppointmentType, HashMap<String, Appointment>> database = new HashMap<>();
-        HashMap<String, Appointment> value = new HashMap<>();
-        value.put("QUEM100919", new Appointment(AppointmentType.DENTAL, "QUEM100919", 5));
-        value.put("QUEE111019", new Appointment(AppointmentType.DENTAL, "QUEE111019", 6));
-        database.put(AppointmentType.DENTAL, value);
-        value = new HashMap<>();
-        value.put("QUEA091119", new Appointment(AppointmentType.PHYSICIAN, "QUEA091119", 2));
-        database.put(AppointmentType.PHYSICIAN, value);
-        value = new HashMap<>();
-        value.put("QUEM051019", new Appointment(AppointmentType.SURGEON, "QUEM051019", 2));
-        database.put(AppointmentType.SURGEON, value);
-
-        return database;
-    }
-
-    private static HashMap<AppointmentType, HashMap<String, Appointment>> initSHEDatabase() {
-        HashMap<AppointmentType, HashMap<String, Appointment>> database = new HashMap<>();
-        HashMap<String, Appointment> value = new HashMap<>();
-        value.put("SHEM051019", new Appointment(AppointmentType.SURGEON, "SHEM051019", 2));
-        database.put(AppointmentType.SURGEON, value);
-        value = new HashMap<>();
-        value.put("SHEM170419", new Appointment(AppointmentType.DENTAL, "SHEM170419", 2));
-        database.put(AppointmentType.DENTAL, value);
-        value = new HashMap<>();
-        value.put("SHEE150219", new Appointment(AppointmentType.PHYSICIAN, "SHEE150219", 2));
-        database.put(AppointmentType.PHYSICIAN, value);
-        return database;
     }
 
     private Router getProperRouter(Request request) {
@@ -142,6 +91,8 @@ public class Richter extends Replica {
                 return Result.toGeneralResponse(router.cancelAppointment(patientID, appointmentID, appointmentType));
             case GET_APPOINTMENT_SCHEDULE:
                 return Result.toGeneralResponse(router.getAppointmentSchedule(patientID));
+            case SWAP_APPOINTMENT:
+                return new Response(true);
         }
         return null;
     }
