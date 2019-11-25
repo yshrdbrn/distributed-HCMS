@@ -59,7 +59,7 @@ public class UDPServer {
             DatagramPacket request = new DatagramPacket(data, data.length, connection.getIP(), connection.getPort());
             socket.send(request);
             System.out.println("Request message sent from the client to server with port number " + connection.getPort());
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[40 * 1024];
             DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
             socket.receive(reply);
             Result result = parseResult(reply);
@@ -94,7 +94,7 @@ public class UDPServer {
 
 
     private void setupReceiver(DatagramSocket socket) throws IOException {
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[40 * 1024];
         while (true) {
             DatagramPacket request = new DatagramPacket(buffer, buffer.length);
             socket.receive(request);
