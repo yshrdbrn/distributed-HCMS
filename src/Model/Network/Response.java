@@ -70,7 +70,6 @@ public class Response {
         Response response = (Response) o;
 
         if (successful != response.successful) return false;
-        if (!message.equals(response.message)) return false;
         if (data != null ^ response.data != null) return false;
         if (data == null) return true;
         if (data.size() != response.data.size()) return false;
