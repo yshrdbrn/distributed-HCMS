@@ -7,12 +7,15 @@ import Components.Replicas.Richter.Model.*;
 
 public class Server {
     private String serverName;
-    HashMap<AppointmentType, HashMap<String, Appointment>> database = new HashMap<>();
-    ArrayList<Connection> connections;
+    private HashMap<AppointmentType, HashMap<String, Appointment>> database = new HashMap<>();
+    private ArrayList<Connection> connections;
 
     public Server(String serverName, ArrayList<Connection> connections) {
         this.serverName = serverName;
         this.connections = connections;
+        for (AppointmentType appointmentType : AppointmentType.values()) {
+            database.put(appointmentType, new HashMap<>());
+        }
     }
 
     public ArrayList<Connection> getConnections() {

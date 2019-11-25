@@ -31,9 +31,9 @@ public class Richter extends Replica {
         servers.add(QUEServer);
         servers.add(SHEServer);
 
-        MTLServer.setDatabase(initMTLDatabase());
-        QUEServer.setDatabase(initQUEDatabase());
-        SHEServer.setDatabase(initSHEDatabase());
+//        MTLServer.setDatabase(initMTLDatabase());
+//        QUEServer.setDatabase(initQUEDatabase());
+//        SHEServer.setDatabase(initSHEDatabase());
 
         MTLRouter = new Router(MTLServer);
         QUERouter = new Router(QUEServer);
@@ -117,8 +117,12 @@ public class Richter extends Replica {
     @Override
     public Response resolveRequest(Request request) {
         Router router = getProperRouter(request);
-        String appointmentID = request.getAppointmentID().getRawID();
-        AppointmentType appointmentType = AppointmentType.toLocalAppointmentType(request.getAppointmentType());
+        String appointmentID = "";
+        if (request.getAppointmentID() != null)
+            appointmentID = request.getAppointmentID().getRawID();
+        AppointmentType appointmentType = null;
+        if (request.getAppointmentType() != null)
+            appointmentType = AppointmentType.toLocalAppointmentType(request.getAppointmentType());
         String patientID = "";
         if (request.getUser() != null) {
             patientID = request.getUser().getId();

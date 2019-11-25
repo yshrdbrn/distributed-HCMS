@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.sql.SQLOutput;
 import java.util.HashSet;
 
 public class ReliablePacketHandler {
@@ -49,9 +48,9 @@ public class ReliablePacketHandler {
                 String json = new String(incomingPacket.getData(), 0, incomingPacket.getLength());
                 CustomPacket receivedPacket = gson.fromJson(json, CustomPacket.class);
 
-                    System.out.println("Got Packet.");
-                    System.out.println("Sender: " + receivedPacket.getSender().getName());
-                    System.out.println("ID: " + receivedPacket.getPacketID());
+//                    System.out.println("Got Packet.");
+//                    System.out.println("Sender: " + receivedPacket.getSender().getName());
+//                    System.out.println("ID: " + receivedPacket.getPacketID());
 
 
                 // If packet is not duplicated, add the packet to hashset
@@ -91,7 +90,7 @@ public class ReliablePacketHandler {
         }
 
         while (counter < 10) {
-            System.out.println("Send");
+//            System.out.println("Send");
             try {
                 // Send packet to destination
                 sendPacketToNetwork(packet, destination);
@@ -99,10 +98,10 @@ public class ReliablePacketHandler {
                 // Check if the packet arrived
                 counter++;
                 Thread.sleep(500);
-                System.out.println("Counter = " + counter);
+//                System.out.println("Counter = " + counter);
                 synchronized (ackStatus) {
                     if (ackStatus.ackReceived) {
-                        System.out.println("Ack received");
+//                        System.out.println("Ack received");
                         break;
                     }
                 }

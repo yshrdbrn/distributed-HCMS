@@ -44,11 +44,14 @@ public class ReplicaManager extends Component {
         super(config);
         switch (n) {
             case 1:
-                replica = new Kirby();
+                replica = new Kirby(0);
+                break;
             case 2:
-                replica = new Richter();
+                replica = new Kirby(1000);
+                break;
             case 3:
                 replica = new Richter();
+                break;
         }
         lastHandledRequest.setLabel(0);
     }

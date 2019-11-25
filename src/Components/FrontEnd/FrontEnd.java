@@ -75,8 +75,10 @@ public class FrontEnd extends Component {
                         break;
                     }
                 }
-                if (!found)
+                if (!found) {
+                    System.out.println("Replica crashed!");
                     packetHandler.sendPacket(initFaultPacket(), replicaManager);
+                }
             }
         }
     }
@@ -99,6 +101,10 @@ public class FrontEnd extends Component {
                     inconsistentResultCounter[i]++;
                     inconsistentResultCounter[j]++;
                 }
+        System.out.println("Inconsistency array:");
+        for (int i = 0; i < 3; i++)
+            System.out.print(inconsistentResultCounter[i] + " ");
+        System.out.println();
         for (int i = 0; i < responses.size(); i++)
             if (inconsistentResultCounter[i] > 1)
                 packetHandler.sendPacket(initFaultPacket(), responses.get(i).getSender());

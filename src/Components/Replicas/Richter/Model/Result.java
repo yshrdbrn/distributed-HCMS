@@ -80,9 +80,10 @@ public class Result implements Serializable {
     }
 
     public static Response toGeneralResponse(Result result) {
-        boolean isSuccess = result.getResultStatus() == ResultStatus.FAILURE ? false : true;
+        boolean isSuccess = result.getResultStatus() == ResultStatus.SUCCESS;
         ArrayList<Model.Appointment.Appointment> payload = null;
         if(result.getPayload() != null) {
+            payload = new ArrayList<>();
             for (Appointment appointment : result.getPayload()) {
                 payload.add(Appointment.toGeneralAppointment(appointment));
             }
