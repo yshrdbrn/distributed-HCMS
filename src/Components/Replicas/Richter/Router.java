@@ -46,8 +46,10 @@ public class Router implements ServerInterface {
         }
 
         ArrayList<Appointment> allAppointments = new ArrayList<>();
+
         for(Result r : results) {
-            allAppointments.addAll(r.getPayload());
+            if(r.getPayload() != null)
+                allAppointments.addAll(r.getPayload());
         }
 
         result = new Result(ResultStatus.SUCCESS, allAppointments);
@@ -84,6 +86,7 @@ public class Router implements ServerInterface {
 
         ArrayList<Appointment> allAppointments = new ArrayList<>();
         for(Result r : results) {
+            if(r.getPayload() != null)
             allAppointments.addAll(r.getPayload());
         }
 
