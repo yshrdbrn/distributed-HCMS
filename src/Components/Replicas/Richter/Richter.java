@@ -73,9 +73,9 @@ public class Richter extends Replica {
         if (request.getAppointmentType() != null)
             appointmentType = AppointmentType.toLocalAppointmentType(request.getAppointmentType());
         String patientID = "";
-        if (request.getUser() != null) {
+        if (request.getUser() != null)
             patientID = request.getUser().getId();
-        }
+
         int capacity = request.getCapacity();
 
         switch (request.getRequestType()) {
