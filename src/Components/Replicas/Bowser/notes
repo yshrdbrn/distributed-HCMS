@@ -1,0 +1,11 @@
+SomeClient is the main function for me, runs and initializes the three servers. Functions are called by their respective FunctionManagers.
+
+FunctionManager
+addAppointments needs to verify admin before hand.
+
+
+
+Log Code needed in 
+
+FunctionManager 
+ln 43 
