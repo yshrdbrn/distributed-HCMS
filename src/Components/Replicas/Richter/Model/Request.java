@@ -10,6 +10,7 @@ public class Request implements Serializable {
     private String name;
     private RequestDestination destination;
     private Appointment appointment;
+    private Appointment secondAppointment;
     private String patientID;
 
     public Appointment getAppointment() {
@@ -27,6 +28,18 @@ public class Request implements Serializable {
         this.appointment = appointment;
         this.destination = setDestination(appointment.getID());
         this.patientID = patientID;
+    }
+
+    public Request(String name, Appointment appointment, Appointment secondAppointment, String patientID) {
+        this.name = name;
+        this.appointment = appointment;
+        this.secondAppointment = secondAppointment;
+        this.destination = setDestination(appointment.getID());
+        this.patientID = patientID;
+    }
+
+    public Appointment getSecondAppointment() {
+        return secondAppointment;
     }
 
     public Request(String name) {

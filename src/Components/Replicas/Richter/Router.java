@@ -95,6 +95,14 @@ public class Router implements ServerInterface {
         return result;
     }
 
+    @Override
+    public Result swapAppointment(String patientID, String firstAppointmentID, AppointmentType firstAppointmentType, String secondAppointmentID, AppointmentType secondAppointmentType) {
+        Appointment firstAppointment = new Appointment(firstAppointmentType, firstAppointmentID);
+        Appointment secondAppointment = new Appointment(secondAppointmentType, secondAppointmentID);
+        Request clientRequest = new Request("swapAppointment", firstAppointment, secondAppointment, patientID);
+        return hitProperServer(clientRequest);
+    }
+
 
     private Connection getProperConnection(Request clientRequest){
         for (Connection c: server.getConnections()) {

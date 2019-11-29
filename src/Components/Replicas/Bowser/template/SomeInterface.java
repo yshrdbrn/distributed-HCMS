@@ -1,4 +1,4 @@
-package template;
+package Components.Replicas.Bowser.template;
 
 import java.rmi.*;
 

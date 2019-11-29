@@ -1,13 +1,13 @@
-package template;
+package Components.Replicas.Bowser.template;
 import java.rmi.*;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
-import java.net.*;
-import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import comps.Clients;
-import comps.Appointment;
+
+import Components.Replicas.Bowser.comps.Appointment;
+import Components.Replicas.Bowser.comps.Clients;
+
 /**
  * This class represents the object server for a distributed
  * object of class SomeImpl, which implements the remote 
@@ -106,13 +106,5 @@ public class Server{
 		         System.out.println(
 		            "RMI registry created at port " + RMIPortNum);
 		      }
-		   } // end startRegistry
-	
-	
-	
-	     
-      
-
-
-   
+		   } // end startRegistr
 } // end class

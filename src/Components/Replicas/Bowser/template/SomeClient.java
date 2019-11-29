@@ -1,7 +1,10 @@
-package template;
+package Components.Replicas.Bowser.template;
 
 import java.rmi.*;
-import comps.*;
+
+import Components.Replicas.Bowser.comps.Clients;
+import Components.Replicas.Bowser.comps.FunctionManager;
+import Components.Replicas.Bowser.template.Server;
 /**
  * This class represents the object client for a distributed
  * object of class SomeImpl, which implements the remote 

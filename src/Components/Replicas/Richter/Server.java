@@ -99,9 +99,9 @@ public class Server {
         return result;
     }
 
-    public synchronized Result bookAppointment(Request request) {
+    public synchronized Result bookAppointment(Request request, boolean isForSwap) {
         Client patient = new Client(request.getPatientID());
-        Appointment appointment = request.getAppointment();
+        Appointment appointment = isForSwap ? request.getSecondAppointment() : request.getAppointment();
         AppointmentType appointmentType = appointment.getAppointmentType();
         String appointmentID = appointment.getID();
         if(database.containsKey(appointmentType)) {
@@ -152,6 +152,24 @@ public class Server {
         return new Result(ResultStatus.FAILURE, "We did not find any appointment for this patient ID.");
     }
 
+    public Result swapAppointment(Request request) {
+        Appointment firstAppointment = request.getAppointment();
+        boolean appointmentDoesExist = false;
+        for(Appointment appointment: getAppointmentSchedule(request).getPayload()) {
+            if(appointment.getID() == firstAppointment.getID()) appointmentDoesExist = true;
+        }
+
+        if(!appointmentDoesExist)
+            return new Result(ResultStatus.FAILURE, "This patient did not book this appointment.");
+
+        if(bookAppointment(request, true).getResultStatus() == ResultStatus.SUCCESS) {
+            cancelAppointment(request);
+            return new Result(ResultStatus.SUCCESS, "Appointments have been swapped");
+        } else {
+            return new Result(ResultStatus.FAILURE, "An error occurred");
+        }
+    }
+
     public Result handleRequest(Request request) {
         Result toReturn;
         switch (request.getName()) {
@@ -165,13 +183,16 @@ public class Server {
                 toReturn = listAppointmentAvailability(request);
                 break;
             case "bookAppointment":
-                toReturn = bookAppointment(request);
+                toReturn = bookAppointment(request, false);
                 break;
             case "getAppointmentSchedule":
                 toReturn = getAppointmentSchedule(request);
                 break;
             case "cancelAppointment":
                 toReturn = cancelAppointment(request);
+                break;
+            case "swapAppointment":
+                toReturn = swapAppointment(request);
                 break;
             default:
                 toReturn = null;

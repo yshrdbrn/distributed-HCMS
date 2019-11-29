@@ -9,4 +9,5 @@ public interface ServerInterface {
     Result bookAppointment (String patientID, String appointmentID, AppointmentType appointmentType);
     Result cancelAppointment (String patientID, String appointmentID, AppointmentType appointmentType);
     Result getAppointmentSchedule (String patientID);
+    Result swapAppointment(String patienID, String firstAppointmentID, AppointmentType firstAppointmentType, String secondAppointmentID, AppointmentType secondAppointmentType);
 }

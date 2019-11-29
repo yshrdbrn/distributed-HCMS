@@ -1,4 +1,4 @@
-package comps;
+package Components.Replicas.Bowser.comps;
 import java.io.Serializable;
 import java.util.ArrayList;
 public class Appointment implements Serializable{

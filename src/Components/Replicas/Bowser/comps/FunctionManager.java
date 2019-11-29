@@ -1,8 +1,9 @@
-package comps;
+package Components.Replicas.Bowser.comps;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import template.Server;
+import Components.Replicas.Bowser.template.Server;
+
 
 public class FunctionManager {
 
@@ -120,6 +121,7 @@ public class FunctionManager {
 		
 //		Server.initClients();
 		String tempType = parseAppointmentType(appointmentType);
+
 		Clients tempClient = new Clients(patientID);
 		
 		if(server.getAppDatabase().containsKey(tempType)) {

@@ -67,11 +67,20 @@ public class Richter extends Replica {
     public Response resolveRequest(Request request) {
         Router router = getProperRouter(request);
         String appointmentID = "";
+        String secondAppointmentID = "";
         if (request.getAppointmentID() != null)
             appointmentID = request.getAppointmentID().getRawID();
+        if (request.getSecondAppointmentID() != null)
+            secondAppointmentID = request.getSecondAppointmentID().getRawID();
+
         AppointmentType appointmentType = null;
+        AppointmentType secondAppointmentType = null;
         if (request.getAppointmentType() != null)
             appointmentType = AppointmentType.toLocalAppointmentType(request.getAppointmentType());
+        if (request.getSecondAppointmentType() != null) {
+            secondAppointmentType = AppointmentType.toLocalAppointmentType(request.getSecondAppointmentType());
+        }
+
         String patientID = "";
         if (request.getUser() != null)
             patientID = request.getUser().getId();
@@ -92,7 +101,7 @@ public class Richter extends Replica {
             case GET_APPOINTMENT_SCHEDULE:
                 return Result.toGeneralResponse(router.getAppointmentSchedule(patientID));
             case SWAP_APPOINTMENT:
-                return new Response(true);
+                return Result.toGeneralResponse(router.swapAppointment(patientID, appointmentID, appointmentType, secondAppointmentID, secondAppointmentType));
         }
         return null;
     }
