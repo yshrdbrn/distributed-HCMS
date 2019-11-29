@@ -44,10 +44,10 @@ public class ReplicaManager extends Component {
         super(config);
         switch (n) {
             case 1:
-                replica = new Kirby(0);
+                replica = new Kirby(0, config);
                 break;
             case 2:
-                replica = new Kirby(1000);
+                replica = new Kirby(1000, config);
                 break;
             case 3:
                 replica = new Richter();

@@ -1,6 +1,7 @@
 package Components.Replicas.Kirby;
 
 import Components.Replicas.Replica;
+import Config.ComponentConfig;
 import Model.Network.Request;
 import Model.Network.Response;
 
@@ -12,7 +13,7 @@ import java.util.HashMap;
 public class Kirby extends Replica {
     private HashMap<String, ServerWrapper> serverWrappers;
 
-    public Kirby(int plus) {
+    public Kirby(int plus, ComponentConfig config) {
         ArrayList<ServerInfo> serversInfo = null;
         try {
             serversInfo = getServersInfo(plus);
@@ -21,9 +22,9 @@ public class Kirby extends Replica {
             e.printStackTrace();
         }
         serverWrappers = new HashMap<>();
-        serverWrappers.put("MTL", new ServerWrapper("MTL", serversInfo));
-        serverWrappers.put("SHE", new ServerWrapper("SHE", serversInfo));
-        serverWrappers.put("QUE", new ServerWrapper("QUE", serversInfo));
+        serverWrappers.put("MTL", new ServerWrapper("MTL", serversInfo, config));
+        serverWrappers.put("SHE", new ServerWrapper("SHE", serversInfo, config));
+        serverWrappers.put("QUE", new ServerWrapper("QUE", serversInfo, config));
     }
 
     private ArrayList<ServerInfo> getServersInfo(int plus) throws UnknownHostException {

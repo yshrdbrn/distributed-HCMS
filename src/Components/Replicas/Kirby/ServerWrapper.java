@@ -1,5 +1,6 @@
 package Components.Replicas.Kirby;
 
+import Config.ComponentConfig;
 import Model.Appointment.Appointment;
 import Model.Network.Request;
 import Model.Network.Response;
@@ -15,11 +16,11 @@ class ServerWrapper {
     private String serverName;
     private String logFileName;
 
-    ServerWrapper(String serverName, List<ServerInfo> serverInfoList) {
+    ServerWrapper(String serverName, List<ServerInfo> serverInfoList, ComponentConfig config) {
         this.serverName = serverName;
         localServer = new LocalServer();
         udpServer = new UDPServer(serverName, localServer, serverInfoList);
-        logFileName = "server_" + serverName + ".txt";
+        logFileName = config.getName() + "_" + serverName + ".txt";
     }
 
     String getServerName() {
