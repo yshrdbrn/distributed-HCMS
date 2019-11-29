@@ -168,16 +168,16 @@ public class Request {
     public String toString() {
         String toRet;
         toRet = "Request{" +
-                "\n\trequestType=" + requestType +
-                ",\n\tuser=" + user.getId();
+                "\n\trequestType = " + requestType +
+                ",\n\tuser = " + user.getId();
         if (appointmentID != null)
-            toRet += ",\n\tappointmentID={" + appointmentID + "}";
+            toRet += ",\n\tappointmentID = {" + appointmentID + "}";
         if (appointmentType != null)
-            toRet += ",\n\tappointmentType=" + appointmentType;
+            toRet += ",\n\tappointmentType = " + appointmentType;
         if (capacity != -1)
-            toRet += ",\n\tcapacity=" + capacity;
+            toRet += ",\n\tcapacity = " + capacity;
         if (appointments != null)
-            toRet += ",\n\tappointments=" + appointments;
+            toRet += ",\n\tappointments = " + appointments;
         toRet += "\n}";
         return toRet;
     }

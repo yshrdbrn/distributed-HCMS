@@ -95,10 +95,10 @@ public class Response {
     public String toString() {
         String toRet;
         toRet = "Response{" +
-                "\n\tsuccessful=" + successful +
-                ",\n\tmessage='" + message + '\'';
+                "\n\tsuccessful = " + successful +
+                ",\n\tmessage = '" + message + '\'';
         if (data != null) {
-            toRet += ",\n\tappointments=[";
+            toRet += ",\n\tappointments = [";
             for (Appointment appointment : data) {
                 toRet += "\n\t\t{" + appointment + "},";
             }
