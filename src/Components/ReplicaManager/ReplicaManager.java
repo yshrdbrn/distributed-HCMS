@@ -74,6 +74,7 @@ public class ReplicaManager extends Component {
         faultCounter++;
         if(faultCounter == 3) {
             replica = null;
+            System.out.println("Replica has been terminated.");
         }
     }
 

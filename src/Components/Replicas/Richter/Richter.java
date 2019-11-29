@@ -94,31 +94,31 @@ public class Richter extends Replica {
         switch (request.getRequestType()) {
             case ADD_APPOINTMENT:
                 response = Result.toGeneralResponse(router.addAppointment(appointmentID, appointmentType, capacity));
-                Logger.logEvent("Richter_" + request.getAppointmentID().getCity() + ".txt", request, response, LocalDateTime.now());
+                Logger.logEvent("Richter_" + request.getUser().getCity() + ".txt", request, response, LocalDateTime.now());
                 return response;
             case REMOVE_APPOINTMENT:
                 response = Result.toGeneralResponse(router.removeAppointment(appointmentID, appointmentType));
-                Logger.logEvent("Richter_" + request.getAppointmentID().getCity() + ".txt", request, response, LocalDateTime.now());
+                Logger.logEvent("Richter_" + request.getUser().getCity() + ".txt", request, response, LocalDateTime.now());
                 return response;
             case LIST_APPOINTMENT_AVAILABILITY:
                 response = Result.toGeneralResponse(router.listAppointmentAvailability(appointmentType));
-                Logger.logEvent("Richter_" + request.getAppointmentID().getCity() + ".txt", request, response, LocalDateTime.now());
+                Logger.logEvent("Richter_" + request.getUser().getCity() + ".txt", request, response, LocalDateTime.now());
                 return response;
             case BOOK_APPOINTMENT:
                 response = Result.toGeneralResponse(router.bookAppointment(patientID, appointmentID, appointmentType));
-                Logger.logEvent("Richter_" + request.getAppointmentID().getCity() + ".txt", request, response, LocalDateTime.now());
+                Logger.logEvent("Richter_" + request.getUser().getCity() + ".txt", request, response, LocalDateTime.now());
                 return response;
             case CANCEL_APPOINTMENT:
                 response = Result.toGeneralResponse(router.cancelAppointment(patientID, appointmentID, appointmentType));
-                Logger.logEvent("Richter_" + request.getAppointmentID().getCity() + ".txt", request, response, LocalDateTime.now());
+                Logger.logEvent("Richter_" + request.getUser().getCity() + ".txt", request, response, LocalDateTime.now());
                 return response;
             case GET_APPOINTMENT_SCHEDULE:
                 response = Result.toGeneralResponse(router.getAppointmentSchedule(patientID));
-                Logger.logEvent("Richter_" + request.getAppointmentID().getCity() + ".txt", request, response, LocalDateTime.now());
+                Logger.logEvent("Richter_" + request.getUser().getCity() + ".txt", request, response, LocalDateTime.now());
                 return response;
             case SWAP_APPOINTMENT:
                 response = Result.toGeneralResponse(router.swapAppointment(patientID, appointmentID, appointmentType, secondAppointmentID, secondAppointmentType));
-                Logger.logEvent("Richter_" + request.getAppointmentID().getCity() + ".txt", request, response, LocalDateTime.now());
+                Logger.logEvent("Richter_" + request.getUser().getCity() + ".txt", request, response, LocalDateTime.now());
                 return response;
         }
         return null;
