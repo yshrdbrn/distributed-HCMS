@@ -2,6 +2,9 @@ package Components.Replicas.Richter;
 
 
 import Components.Replicas.Richter.Model.*;
+import Utility.Logger;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Router implements ServerInterface {
@@ -141,7 +144,6 @@ public class Router implements ServerInterface {
             setupUDPServer(clientRequest);
             result = udpServer.sendRequest(clientRequest);
         }
-
         return result;
     }
 

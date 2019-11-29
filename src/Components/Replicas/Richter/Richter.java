@@ -4,8 +4,11 @@ import Components.Replicas.Replica;
 import Model.Network.Request;
 import Model.Network.Response;
 import Components.Replicas.Richter.Model.*;
+import Utility.Logger;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Richter extends Replica {
@@ -64,7 +67,7 @@ public class Richter extends Replica {
         return toReturn;
     }
     @Override
-    public Response resolveRequest(Request request) {
+        public Response resolveRequest(Request request) {
         Router router = getProperRouter(request);
         String appointmentID = "";
         String secondAppointmentID = "";
@@ -87,21 +90,36 @@ public class Richter extends Replica {
 
         int capacity = request.getCapacity();
 
+        Response response = null;
         switch (request.getRequestType()) {
             case ADD_APPOINTMENT:
-                return Result.toGeneralResponse(router.addAppointment(appointmentID, appointmentType, capacity));
+                response = Result.toGeneralResponse(router.addAppointment(appointmentID, appointmentType, capacity));
+                Logger.logEvent("Richter_" + request.getAppointmentID().getCity() + ".txt", request, response, LocalDateTime.now());
+                return response;
             case REMOVE_APPOINTMENT:
-                return Result.toGeneralResponse(router.removeAppointment(appointmentID, appointmentType));
+                response = Result.toGeneralResponse(router.removeAppointment(appointmentID, appointmentType));
+                Logger.logEvent("Richter_" + request.getAppointmentID().getCity() + ".txt", request, response, LocalDateTime.now());
+                return response;
             case LIST_APPOINTMENT_AVAILABILITY:
-                return Result.toGeneralResponse(router.listAppointmentAvailability(appointmentType));
+                response = Result.toGeneralResponse(router.listAppointmentAvailability(appointmentType));
+                Logger.logEvent("Richter_" + request.getAppointmentID().getCity() + ".txt", request, response, LocalDateTime.now());
+                return response;
             case BOOK_APPOINTMENT:
-                return Result.toGeneralResponse(router.bookAppointment(patientID, appointmentID, appointmentType));
+                response = Result.toGeneralResponse(router.bookAppointment(patientID, appointmentID, appointmentType));
+                Logger.logEvent("Richter_" + request.getAppointmentID().getCity() + ".txt", request, response, LocalDateTime.now());
+                return response;
             case CANCEL_APPOINTMENT:
-                return Result.toGeneralResponse(router.cancelAppointment(patientID, appointmentID, appointmentType));
+                response = Result.toGeneralResponse(router.cancelAppointment(patientID, appointmentID, appointmentType));
+                Logger.logEvent("Richter_" + request.getAppointmentID().getCity() + ".txt", request, response, LocalDateTime.now());
+                return response;
             case GET_APPOINTMENT_SCHEDULE:
-                return Result.toGeneralResponse(router.getAppointmentSchedule(patientID));
+                response = Result.toGeneralResponse(router.getAppointmentSchedule(patientID));
+                Logger.logEvent("Richter_" + request.getAppointmentID().getCity() + ".txt", request, response, LocalDateTime.now());
+                return response;
             case SWAP_APPOINTMENT:
-                return Result.toGeneralResponse(router.swapAppointment(patientID, appointmentID, appointmentType, secondAppointmentID, secondAppointmentType));
+                response = Result.toGeneralResponse(router.swapAppointment(patientID, appointmentID, appointmentType, secondAppointmentID, secondAppointmentType));
+                Logger.logEvent("Richter_" + request.getAppointmentID().getCity() + ".txt", request, response, LocalDateTime.now());
+                return response;
         }
         return null;
     }

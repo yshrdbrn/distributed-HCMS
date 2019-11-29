@@ -162,11 +162,13 @@ public class Server {
         if(!appointmentDoesExist)
             return new Result(ResultStatus.FAILURE, "This patient did not book this appointment.");
 
-        if(bookAppointment(request, true).getResultStatus() == ResultStatus.SUCCESS) {
+        Result bookSecondAppointmentResult = bookAppointment(request, true);
+
+        if(bookSecondAppointmentResult.getResultStatus() == ResultStatus.SUCCESS) {
             cancelAppointment(request);
             return new Result(ResultStatus.SUCCESS, "Appointments have been swapped");
         } else {
-            return new Result(ResultStatus.FAILURE, "An error occurred");
+            return new Result(ResultStatus.FAILURE, bookSecondAppointmentResult.getMessage());
         }
     }
 
