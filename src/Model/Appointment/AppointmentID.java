@@ -62,17 +62,12 @@ public class AppointmentID implements Comparable<AppointmentID> {
 
         AppointmentID that = (AppointmentID) o;
 
-        if (!city.equals(that.city)) return false;
-        if (!date.equals(that.date)) return false;
-        return timeOfDay == that.timeOfDay;
+        return rawID.equals(that.rawID);
     }
 
     @Override
     public int hashCode() {
-        int result = city.hashCode();
-        result = 31 * result + date.hashCode();
-        result = 31 * result + timeOfDay.hashCode();
-        return result;
+        return rawID.hashCode();
     }
 
     @Override

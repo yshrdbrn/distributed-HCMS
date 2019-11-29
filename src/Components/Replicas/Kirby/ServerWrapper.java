@@ -151,7 +151,7 @@ class ServerWrapper {
         boolean exists = false;
         if (allAppointmentResponse.getData() != null) {
             for (Appointment appointment : allAppointmentResponse.getData()) {
-                if (appointment.equals(new Appointment(request.getAppointmentID(), request.getAppointmentType(), 0))) {
+                if (appointment.getId().equals(request.getAppointmentID()) && appointment.getType() == request.getAppointmentType()) {
                     exists = true;
                     break;
                 }
