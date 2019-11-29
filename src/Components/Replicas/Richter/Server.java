@@ -156,7 +156,7 @@ public class Server {
         Appointment firstAppointment = request.getAppointment();
         boolean appointmentDoesExist = false;
         for(Appointment appointment: getAppointmentSchedule(request).getPayload()) {
-            if(appointment.getID() == firstAppointment.getID()) appointmentDoesExist = true;
+            if(appointment.getID().equals(firstAppointment.getID()) && appointment.getAppointmentType().equals(firstAppointment.getAppointmentType())) appointmentDoesExist = true;
         }
 
         if(!appointmentDoesExist)
